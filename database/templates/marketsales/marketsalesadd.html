@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Market Sales</title>
+</head>
+<body>
+    <header>
+      <div class="header-left">
+        <div class="logo">
+          <a href="{{ url_for('otc.index') }}" class="active">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="MARKET LOG">
+          </a>
+        </div>
+        <div class="logo-text">
+          <a href="{{ url_for('otc.index') }}" class="active">
+            MARKET LOG
+          </a>
+        </div>
+        
+        <nav class="active">
+          <ul>
+            <li><a href="{{ url_for('otc.index') }}" class="active">Home</a></li>
+            <li><a href="{{ url_for('check_log.indexthat') }}" class="active">Profile</a></li>
+            <li><a href="{{ url_for('suppliers.index') }}" class="active">suppliers</a></li>
+            <li><a href="{{ url_for('otc.index') }}" class="active">Over The Counter</a></li>
+            <li><a href="{{ url_for('marketsales.index') }}" class="active">Marketeers</a></li>
+            <li><a href="{{ url_for('inventory.index') }}" class="active">store-to-shop</a></li>
+            <li><a href="{{ url_for('offshopsettlements.index') }}" class="active">Offshop settlements</a></li>
+            <li><a href="{{ url_for('expenditures.index') }}" class="active">Expenditure</a></li>
+            <li><a href="{{ url_for('payments.index') }}" class="active">Payments</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="header-right">
+        <div class="hamburger">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </header>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const hamburger = document.querySelector(".hamburger");
+        const nav = document.querySelector("nav");
+        let isNavActive = false;
+
+        // Initially hide the navigation
+        nav.classList.add("hidden");
+
+        hamburger.onclick = function() {
+            isNavActive = !isNavActive; // Toggle the state
+
+            if (isNavActive) {
+                nav.classList.remove("hidden");
+                nav.classList.add("active");
+            } else {
+                nav.classList.remove("active");
+                nav.classList.add("hidden");
+            }
+          };
+      });
+    </script>
+
+    <h1>Marketeers</h1>
+    <p>Marketeers' Sales data is recorded here</p>
+
+    <!-- flash messages -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- adding new records -->
+    <form action="{{ url_for('marketsales.add') }}" method="post">
+        <label for="marketsaleID">Market sale ID</label>
+        <input type="text" name="marketsaleID" required>
+
+        <label for="saleDate">Date</label>
+        <input type="date" name="saleDate" required>
+
+        <label for="product">Product</label>
+        <input type="text" name="product" required>
+
+        <label for="quantity">Quantity</label>
+        <input type="text" name="quantity" required>
+
+        <label for="unitPrice">Unit Price</label>
+        <input type="text" name="unitPrice" required>
+
+        <label for="totalsalePrice">Total Sale Price</label>
+        <input type="text" name="totalsalePrice" required>
+
+        <label for="marketNote">Note</label>
+        <input type="text" name="marketNote" required>
+
+        <br>
+        <button type="submit">Add market sale</button>
+        <a href="{{ url_for('marketsales.update') }}"><button type="button">Update market sale</button></a>
+    </form>
+    <!-- footer Navigation-->
+    <br>
+    <br>
+    <!--IT WAS THE TEMPLATE FOR ALL ....add.html FILES-->
+    <!--a href="{{ url_for('otc.index') }}"><button type="button">Home</button></a> <!--done-->
+    <!--a href="{{ url_for('check_log.indexthat') }}"><button type="button">Profile</button></a> <!--done-->
+    <!--a href="{{ url_for('suppliers.index') }}"><button type="button">suppliers</button></a> <!--done-->
+    <!--a href="{{ url_for('otc.index') }}"><button type="button">Over The Counter</button></a> <!--done-->
+    <!--a href="{{ url_for('marketsales.index') }}"><button type="button">Marketeers</button></a> <!--done-->
+    <!--a href="{{ url_for('inventory.index') }}"><button type="button">store-to-shop</button></a> <!--done-->
+    <!--a href="{{ url_for('offshopsettlements.index') }}"><button type="button">Offshop settlements</button></a> <!--done-->
+    <!--a href="{{ url_for('expenditures.index') }}"><button type="button">Expenditure</button></a> <!--done-->
+    <!--a href="{{ url_for('payments.index') }}"><button type="button">Payments</button></a> <!--done-->
+
+</body>
+</html>

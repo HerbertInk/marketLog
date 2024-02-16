@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='notify.js') }}">
+    <link rel="icon" href="{{ url_for('static', filename='mlfavicon.png') }}" type="image/x-icon">
+    <title>Add Expenses</title>
+</head>
+<body>
+    <header>
+      <div class="header-left">
+        <div class="logo">
+          <a href="{{ url_for('otc.index') }}" class="active">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="MARKET LOG">
+          </a>
+        </div>
+        <div class="logo-text">
+          <a href="{{ url_for('otc.index') }}" class="active">
+            MARKET LOG
+          </a>
+        </div>
+        
+        <nav class="active">
+          <ul>
+            <li><a href="{{ url_for('otc.index') }}" class="active">Home</a></li>
+            <li><a href="{{ url_for('check_log.indexthat') }}" class="active">Profile</a></li>
+            <li><a href="{{ url_for('suppliers.index') }}" class="active">suppliers</a></li>
+            <li><a href="{{ url_for('otc.index') }}" class="active">Over The Counter</a></li>
+            <li><a href="{{ url_for('marketsales.index') }}" class="active">Marketeers</a></li>
+            <li><a href="{{ url_for('inventory.index') }}" class="active">store-to-shop</a></li>
+            <li><a href="{{ url_for('offshopsettlements.index') }}" class="active">Offshop settlements</a></li>
+            <li><a href="{{ url_for('expenditures.index') }}" class="active">Expenditure</a></li>
+            <li><a href="{{ url_for('payments.index') }}" class="active">Payments</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="header-right">
+        <div class="hamburger">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </header>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          const hamburger = document.querySelector(".hamburger");
+          const nav = document.querySelector("nav");
+          let isNavActive = false;
+
+          // Initially hide the navigation
+          nav.classList.add("hidden");
+
+          hamburger.onclick = function() {
+              isNavActive = !isNavActive; // Toggle the state
+
+              if (isNavActive) {
+                  nav.classList.remove("hidden");
+                  nav.classList.add("active");
+              } else {
+                  nav.classList.remove("active");
+                  nav.classList.add("hidden");
+              }
+            };
+        });
+
+    </script>
+  
+    <h1>Expenditure</h1>
+    <p>Add Incurred costs within the Store</p>
+
+    <!-- flash messages -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- adding new records -->
+    <form action="{{ url_for('expenditures.add') }}" method="post">
+        <label for="expID">Expenditure ID</label>
+        <input type="text" name="expID" required>
+
+        <label for="incurredDate">Incurred Date</label>
+        <input type="date" name="incurredDate" required>
+
+        <label for="userItem">Expenditure</label>
+        <input type="text" name="userItem" required>
+
+        <label for="quantity">Quantity</label>
+        <input type="number" name="quantity" required>
+
+        <label for="unitPrice">Unit Price</label>
+        <input type="number" name="unitPrice" required>
+
+        <label for="totalExpenditure">Total Expenditure</label>
+        <input type="number" name="totalExpenditure" required>
+
+        <br>
+        <button type="submit">Add expenditure</button>
+        <a href="{{ url_for('expenditures.update') }}"><button type="button">Update expenditure</button></a>
+    </form>
+    <!--Navigation-->
+    <br>
+    <br>
+    
+
+</body>
+</html>

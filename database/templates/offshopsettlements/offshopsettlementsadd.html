@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Off Shop Settlement</title>
+</head>
+<body>
+
+    <header>
+      <div class="header-left">
+        <div class="logo">
+          <a href="{{ url_for('otc.index') }}" class="active">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="MARKET LOG">
+          </a>
+        </div>
+        <div class="logo-text">
+          <a href="{{ url_for('otc.index') }}" class="active">
+            MARKET LOG
+          </a>
+        </div>
+        
+        <nav class="active">
+          <ul>
+            <li><a href="{{ url_for('otc.index') }}" class="active">Home</a></li>
+            <li><a href="{{ url_for('check_log.indexthat') }}" class="active">Profile</a></li>
+            <li><a href="{{ url_for('suppliers.index') }}" class="active">suppliers</a></li>
+            <li><a href="{{ url_for('otc.index') }}" class="active">Over The Counter</a></li>
+            <li><a href="{{ url_for('marketsales.index') }}" class="active">Marketeers</a></li>
+            <li><a href="{{ url_for('inventory.index') }}" class="active">store-to-shop</a></li>
+            <li><a href="{{ url_for('offshopsettlements.index') }}" class="active">Offshop settlements</a></li>
+            <li><a href="{{ url_for('expenditures.index') }}" class="active">Expenditure</a></li>
+            <li><a href="{{ url_for('payments.index') }}" class="active">Payments</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="header-right">
+        <div class="hamburger">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </header>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const hamburger = document.querySelector(".hamburger");
+        const nav = document.querySelector("nav");
+        let isNavActive = false;
+
+        // Initially hide the navigation
+        nav.classList.add("hidden");
+
+        hamburger.onclick = function() {
+            isNavActive = !isNavActive; // Toggle the state
+
+            if (isNavActive) {
+                nav.classList.remove("hidden");
+                nav.classList.add("active");
+            } else {
+                nav.classList.remove("active");
+                nav.classList.add("hidden");
+            }
+          };
+        });
+    </script>
+
+    <h1>Offshop Settlements</h1>
+    <p>Debts and payments made on a certain 
+      day alongside the party involved</p>
+
+    <!-- flash messages -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- adding new records -->
+    <form action="{{ url_for('offshopsettlements.add') }}" method="post">
+        <label for="offshopID">Offshop ID</label>
+        <input type="text" name="offshopID" required>
+
+        <label for="transactionDate">Date</label>
+        <input type="date" name="transactionDate" required>
+
+        <label for="marketDebt">Debt</label>
+        <input type="number" name="marketDebt" required>
+
+        <label for="marketpayment">Payment</label>
+        <input type="number" name="marketpayment" required>
+
+        <label for="settlementAmount">Settlement</label>
+        <input type="number" name="settlementAmount" required>
+
+        <label for="transactionPersona">Paid by</label>
+        <input type="text" name="transactionPersona" required>
+
+        <br>
+        <button type="submit">Add settlement</button>
+        <a href="{{ url_for('offshopsettlements.update') }}"><button type="button">Update settlement</button></a>
+    </form>
+    
+    <!-- footer Navigation-->
+    <br>
+    <br>
+    
+</body>
+</html>

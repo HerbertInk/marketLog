@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <title>Inventory update</title>
+    </head>
+    <body>
+
+        <header>
+            <div class="header-left">
+              <div class="logo">
+                <a href="{{ url_for('otc.index') }}" class="active">
+                    <img src="{{ url_for('static', filename='logo.png') }}" alt="MARKET LOG">
+                </a>
+              </div>
+              <div class="logo-text">
+                <a href="{{ url_for('otc.index') }}" class="active">
+                    MARKET LOG
+                </a>
+              </div>
+              
+              <nav class="active">
+                <ul>
+                  <li><a href="{{ url_for('otc.index') }}" class="active">Home</a></li>
+                  <li><a href="{{ url_for('check_log.indexthat') }}" class="active">Profile</a></li>
+                  <li><a href="{{ url_for('suppliers.index') }}" class="active">suppliers</a></li>
+                  <li><a href="{{ url_for('otc.index') }}" class="active">Over The Counter</a></li>
+                  <li><a href="{{ url_for('marketsales.index') }}" class="active">Marketeers</a></li>
+                  <li><a href="{{ url_for('inventory.index') }}" class="active">store-to-shop</a></li>
+                  <li><a href="{{ url_for('offshopsettlements.index') }}" class="active">Offshop settlements</a></li>
+                  <li><a href="{{ url_for('expenditures.index') }}" class="active">Expenditure</a></li>
+                  <li><a href="{{ url_for('payments.index') }}" class="active">Payments</a></li>
+                </ul>
+              </nav>
+            </div>
+      
+            <div class="header-right">
+              <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+        </header>
+      
+          <script>
+              document.addEventListener("DOMContentLoaded", function() {
+                const hamburger = document.querySelector(".hamburger");
+                const nav = document.querySelector("nav");
+                let isNavActive = false;
+      
+                // Initially hide the navigation
+                nav.classList.add("hidden");
+      
+                hamburger.onclick = function() {
+                    isNavActive = !isNavActive; // Toggle the state
+      
+                    if (isNavActive) {
+                        nav.classList.remove("hidden");
+                        nav.classList.add("active");
+                    } else {
+                        nav.classList.remove("active");
+                        nav.classList.add("hidden");
+                    }
+                  };
+              });
+      
+          </script>
+
+        <h1>Store-to-Shop Update</h1>
+        <p>Stock from store-to-shop is updated here</p>
+
+            <!-- flash messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+
+        <form action="{{ url_for('inventory.update') }}" method="post">
+            <label for="invID">Enter Inventory ID</label>
+            <input type="text" name="invID" required><br>
+            <a href="{{ url_for('inventory.add') }}"><button type="button">Add record</button></a>
+            <button type="submit">Retrieve</button>
+        </form>
+
+    <!-- Display the fetched record if available -->
+        {% if record %}
+            <form action="{{ url_for('inventory.update_record', invID=record.invID) }}" method="post">
+                <input type="hidden" name="invID" value="{{ record.invID }}">
+
+                <label for="invDate">Date</label>
+                <input type="date" name="invDate" value="{{ record.invDate }}" required>
+
+                <label for="productOut">Product</label>
+                <input type="text" name="productOut" value="{{ record.productOut }}" required>
+
+                <label for="quantityOut">Quantity Out</label>
+                <input type="number" name="quantityOut" value="{{ record.quantityOut }}" required>
+
+                <br>
+                <button type="submit">Update inventory</button>
+            </form>
+        {% endif %}
+        
+        <!--Footer Navigation-->
+        <br>
+        <br>
+        <!-- 'name to py file'.'index route'-->
+
+    </body>
+</html>
